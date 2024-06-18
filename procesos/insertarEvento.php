@@ -18,6 +18,9 @@ $datos = array(
     'nombre' => $_POST['nombre'],
     'descripcion' => $_POST['descripcion'],
     'fecha' => $_POST['fecha'],
+    'cliente_id' => $_POST['cliente_id'],  // Nuevo campo
+    'paquete_id' => $_POST['paquete_id'],  // Nuevo campo
+    'proveedor_id' => $_POST['proveedor_id'],  // Nuevo campo
     'eventos_relacionados' => $eventosRelacionados
 );
 

@@ -56,23 +56,35 @@
 
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $datos->nombre; ?>">
+                    <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $datos['nombre']; ?>">
                 </div>
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo $datos->descripcion; ?></textarea>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo $datos['descripcion']; ?></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="fecha" class="form-label">Fecha</label>
-                    <input type="date" class="form-control" id="fecha" name="fecha" required value="<?php echo $datos->fecha; ?>">
+                    <input type="date" class="form-control" id="fecha" name="fecha" required value="<?php echo $datos['fecha']; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="cliente_id" class="form-label">Cliente ID</label>
+                    <input type="text" class="form-control" id="cliente_id" name="cliente_id" required value="<?php echo $datos['cliente_id']; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="paquete_id" class="form-label">Paquete ID</label>
+                    <input type="text" class="form-control" id="paquete_id" name="paquete_id" required value="<?php echo $datos['paquete_id']; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="proveedor_id" class="form-label">Proveedor ID</label>
+                    <input type="text" class="form-control" id="proveedor_id" name="proveedor_id" required value="<?php echo $datos['proveedor_id']; ?>">
                 </div>
                 <div class="mb-3">
                     <label for="eventos_relacionados" class="form-label">Eventos Relacionados</label>
                     <div id="eventos_relacionados">
-                        <?php foreach ($datos->eventos_relacionados as $index => $evento) { ?>
+                        <?php foreach ($datos['eventos_relacionados'] as $index => $evento) { ?>
                             <div class="input-group mb-2">
-                                <input type="text" class="form-control" name="eventos_relacionados_id[]" placeholder="ID del Evento" required value="<?php echo $evento->id_evento; ?>">
-                                <input type="text" class="form-control" name="nombres_eventos[]" placeholder="Nombre del Evento" required value="<?php echo $evento->nombre_evento; ?>">
+                                <input type="text" class="form-control" name="eventos_relacionados_id[]" placeholder="ID del Evento" required value="<?php echo $evento['id_evento']; ?>">
+                                <input type="text" class="form-control" name="nombres_eventos[]" placeholder="Nombre del Evento" required value="<?php echo $evento['nombre_evento']; ?>">
                                 <button type="button" class="btn btn-outline-danger" onclick="removeEvent(this)"><i class="fa-solid fa-minus"></i></button>
                             </div>
                         <?php } ?>

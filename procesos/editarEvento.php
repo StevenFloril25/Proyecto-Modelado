@@ -18,16 +18,17 @@ $datos = array(
     'nombre' => $_POST['nombre'],
     'descripcion' => $_POST['descripcion'],
     'fecha' => $_POST['fecha'],
+    'cliente_id' => $_POST['cliente_id'],
+    'paquete_id' => $_POST['paquete_id'],
+    'proveedor_id' => $_POST['proveedor_id'],
     'eventos_relacionados' => $eventosRelacionados
 );
 
 $respuesta = $crud->actualizarEvento($id, $datos);
 
-if ($respuesta->getModifiedCount() > 0 || $respuesta -> getMatchedCount() > 0){
+if ($respuesta->getModifiedCount() > 0 || $respuesta->getMatchedCount() > 0){
     header("Location: ../evento.php");
 } else {
     print_r($respuesta);
 }
-
-
 ?>

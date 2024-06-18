@@ -46,6 +46,9 @@
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Fecha</th>
+            <th>Cliente ID</th>
+            <th>Paquete ID</th>
+            <th>Proveedor ID</th>
             <th>Eventos Relacionados</th>
             <th>Editar</th>
             <th>Borrar</th>
@@ -57,6 +60,9 @@
             <td><?php echo $dato['nombre']; ?></td>
             <td><?php echo $dato['descripcion']; ?></td>
             <td><?php echo $dato['fecha']; ?></td>
+            <td><?php echo $dato['cliente_id']; ?></td>
+            <td><?php echo $dato['paquete_id']; ?></td>
+            <td><?php echo $dato['proveedor_id']; ?></td>
             <td>
               <ul>
                 <?php foreach($dato['eventos_relacionados'] as $evento): ?>
@@ -66,7 +72,7 @@
             </td>
             <td class="text-center">
               <form action="./Eventos/editarEventos.php" method="post">
-              <input type="text" hidden name="id" value="<?php echo $dato['_id']; ?>">               
+                <input type="text" hidden name="id" value="<?php echo $dato['_id']; ?>">
                 <button class="btn btn-warning btn-sm" type="submit" name="editar">
                   <i class="fa-solid fa-square-pen"></i>
                 </button>
@@ -74,8 +80,8 @@
             </td>
             <td class="text-center">
               <form action="./Eventos/borrarEvento.php" method="post">
-              <input type="text" hidden name="id" value="<?php echo $dato['_id']; ?>">               
-               <button class="btn btn-danger btn-sm" type="submit" name="eliminar">
+                <input type="text" hidden name="id" value="<?php echo $dato['_id']; ?>">
+                <button class="btn btn-danger btn-sm" type="submit" name="eliminar">
                   <i class="fa-solid fa-eraser"></i>
                 </button>
               </form>
