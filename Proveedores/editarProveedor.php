@@ -1,10 +1,10 @@
 <?php 
     include "../clases/conexion.php";
-    include "../clases/crudCliente.php";
+    include "../clases/crudProveedor.php";
 
-    $crud = new CrudCliente();
+    $crud = new CrudProveedor();
     $id = $_POST['id'];
-    $datos = $crud->obtenerCliente($id);
+    $datos = $crud->obtenerProveedor($id);
     $idMongo = $datos['_id'];
 ?>
 
@@ -37,20 +37,24 @@
           <a class="nav-link" href="./paquete.php"><i class="fa-solid fa-box-open"></i> Registrar Paquete</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./proveedor.php"><i class="fa-solid fa-list-alt"></i> Registrar Proveedor</a>
+          <a class="nav-link" href="./proveedor.php"><i class="fa-solid fa-truck"></i> Registrar Proveedor</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fa-solid fa-list-alt"></i> Registrar Tipo de Evento</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+
 <div class="container mt-4">
     <div class="card">
         <div class="card-body">
-            <a href="../cliente.php" class="btn btn-outline-info mb-3">
+            <a href="../proveedor.php" class="btn btn-outline-info mb-3">
                 <i class="fa-solid fa-rotate-left"></i> Regresar
             </a>
-            <h2>Editar Cliente</h2>
-            <form action="../procesos/editarCliente.php" method="post">
+            <h2>Editar Proveedor</h2>
+            <form action="../procesos/editarProveedor.php" method="post">
                 <input type="text" hidden name="id" value="<?php echo $idMongo; ?>">
 
                 <div class="mb-3">
@@ -58,25 +62,29 @@
                     <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $datos['nombre']; ?>">
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required value="<?php echo $datos['email']; ?>">
+                    <label for="contacto" class="form-label">Contacto</label>
+                    <input type="email" class="form-control" id="contacto" name="contacto" required value="<?php echo $datos['contacto']; ?>">
                 </div>
                 <div class="mb-3">
                     <label for="telefono" class="form-label">Teléfono</label>
                     <input type="text" class="form-control" id="telefono" name="telefono" required value="<?php echo $datos['telefono']; ?>">
                 </div>
                 <div class="mb-3">
-                    <label for="eventos_contratados" class="form-label">Eventos Contratados</label>
-                    <div id="eventos_contratados">
-                        <?php foreach ($datos['eventos_contratados'] as $index => $evento) { ?>
+                    <label for="servicios_ofrecidos" class="form-label">Servicios Ofrecidos</label>
+                    <input type="text" class="form-control" id="servicios_ofrecidos" name="servicios_ofrecidos" required value="<?php echo implode(', ', (array)$datos['servicios_ofrecidos']); ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="eventos_proveidos" class="form-label">Eventos Proveídos</label>
+                    <div id="eventos_proveidos">
+                        <?php foreach ($datos['eventos_proveidos'] as $index => $evento) { ?>
                             <div class="input-group mb-2">
-                                <input type="text" class="form-control" name="eventos_contratados_id[]" placeholder="ID del Evento" required value="<?php echo $evento['id_evento']; ?>">
-                                <input type="text" class="form-control" name="nombres_eventos_contratados[]" placeholder="Nombre del Evento" required value="<?php echo $evento['nombre_evento']; ?>">
+                                <input type="text" class="form-control" name="eventos_proveidos_id[]" placeholder="ID del Evento" required value="<?php echo $evento['id_evento']; ?>">
+                                <input type="text" class="form-control" name="nombres_eventos_proveidos[]" placeholder="Nombre del Evento" required value="<?php echo $evento['nombre_evento']; ?>">
                                 <button type="button" class="btn btn-outline-danger" onclick="removeEvent(this)"><i class="fa-solid fa-minus"></i></button>
                             </div>
                         <?php } ?>
                     </div>
-                    <button type="button" class="btn btn-outline-warning" onclick="addEvent()"><i class="fa-solid fa-plus"></i> Agregar Evento Contratado</button>
+                    <button type="button" class="btn btn-outline-warning" onclick="addEvent()"><i class="fa-solid fa-plus"></i> Agregar Evento Proveído</button>
                 </div>
                 <button type="submit" class="btn btn-warning"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
             </form> 
@@ -87,12 +95,12 @@
 
 <script>
     function addEvent() {
-        const container = document.getElementById('eventos_contratados');
+        const container = document.getElementById('eventos_proveidos');
         const newEvent = document.createElement('div');
         newEvent.className = 'input-group mb-2';
         newEvent.innerHTML = `
-            <input type="text" class="form-control" name="eventos_contratados_id[]" placeholder="ID del Evento" required>
-            <input type="text" class="form-control" name="nombres_eventos_contratados[]" placeholder="Nombre del Evento" required>
+            <input type="text" class="form-control" name="eventos_proveidos_id[]" placeholder="ID del Evento" required>
+            <input type="text" class="form-control" name="nombres_eventos_proveidos[]" placeholder="Nombre del Evento" required>
             <button type="button" class="btn btn-outline-danger" onclick="removeEvent(this)"><i class="fa-solid fa-minus"></i></button>
         `;
         container.appendChild(newEvent);

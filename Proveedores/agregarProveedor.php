@@ -27,7 +27,10 @@
           <a class="nav-link" href="./paquete.php"><i class="fa-solid fa-box-open"></i> Registrar Paquete</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./proveedor.php"><i class="fa-solid fa-list-alt"></i> Registrar Proveedor</a>
+          <a class="nav-link" href="./proveedor.php"><i class="fa-solid fa-truck"></i> Registrar Proveedor</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fa-solid fa-list-alt"></i> Registrar Tipo de Evento</a>
         </li>
       </ul>
     </div>
@@ -37,12 +40,12 @@
 <div class="container mt-4">
   <div class="card fondoDelete">
     <div class="card-body">
-      <a href="../evento.php" class="btn btn-outline-info mb-3">
+      <a href="../proveedor.php" class="btn btn-outline-info mb-3">
         <i class="fa-solid fa-rotate-left"></i> Regresar
       </a>
-      <h2>Agregar nuevo Evento</h2>
+      <h2>Registrar nuevo Proveedor</h2>
 
-      <form action="../procesos/insertarEvento.php" method="post" class="form-horizontal">
+      <form action="../procesos/insertarProveedor.php" method="post" class="form-horizontal">
           <div class="form-group row">
               <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
               <div class="col-sm-10">
@@ -50,46 +53,34 @@
               </div>
           </div>
           <div class="form-group row">
-              <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
+              <label for="contacto" class="col-sm-2 col-form-label">Contacto</label>
               <div class="col-sm-10">
-                  <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                  <input type="email" class="form-control" id="contacto" name="contacto" required>
               </div>
           </div>
           <div class="form-group row">
-              <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
+              <label for="telefono" class="col-sm-2 col-form-label">Teléfono</label>
               <div class="col-sm-10">
-                  <input type="date" class="form-control" id="fecha" name="fecha" required>
+                  <input type="text" class="form-control" id="telefono" name="telefono" required>
               </div>
           </div>
           <div class="form-group row">
-              <label for="cliente_id" class="col-sm-2 col-form-label">Cliente ID</label>
+              <label for="servicios_ofrecidos" class="col-sm-2 col-form-label">Servicios Ofrecidos</label>
               <div class="col-sm-10">
-                  <input type="text" class="form-control" id="cliente_id" name="cliente_id" required>
+                  <input type="text" class="form-control" id="servicios_ofrecidos" name="servicios_ofrecidos" required>
               </div>
           </div>
           <div class="form-group row">
-              <label for="paquete_id" class="col-sm-2 col-form-label">Paquete ID</label>
-              <div class="col-sm-10">
-                  <input type="text" class="form-control" id="paquete_id" name="paquete_id" required>
-              </div>
-          </div>
-          <div class="form-group row">
-              <label for="proveedor_id" class="col-sm-2 col-form-label">Proveedor ID</label>
-              <div class="col-sm-10">
-                  <input type="text" class="form-control" id="proveedor_id" name="proveedor_id" required>
-              </div>
-          </div>
-          <div class="form-group row">
-              <label for="eventos_relacionados" class="col-sm-2 col-form-label">Eventos Relacionados</label>
-              <div class="col-sm-10" id="eventos_relacionados">
+              <label for="eventos_proveidos" class="col-sm-2 col-form-label">Eventos Proveídos</label>
+              <div class="col-sm-10" id="eventos_proveidos">
                   <div class="input-group mb-2">
-                      <input type="text" class="form-control" name="eventos_relacionados_id[]" placeholder="ID del Evento">
-                      <input type="text" class="form-control" name="nombres_eventos[]" placeholder="Nombre del Evento">
+                      <input type="text" class="form-control" name="eventos_proveidos_id[]" placeholder="ID del Evento">
+                      <input type="text" class="form-control" name="nombres_eventos_proveidos[]" placeholder="Nombre del Evento">
                       <button type="button" class="btn btn-outline-danger" onclick="removeEvent(this)"><i class="fa-solid fa-minus"></i></button>
                   </div>
               </div>
               <div class="col-sm-10 offset-sm-2">
-                  <button type="button" class="btn btn-outline-primary" onclick="addEvent()"><i class="fa-solid fa-plus"></i> Agregar Evento Relacionado</button>
+                  <button type="button" class="btn btn-outline-primary" onclick="addEvent()"><i class="fa-solid fa-plus"></i> Agregar Evento Proveído</button>
               </div>
           </div>
           <div class="form-group row">
@@ -105,12 +96,12 @@
 
 <script>
     function addEvent() {
-        const container = document.getElementById('eventos_relacionados');
+        const container = document.getElementById('eventos_proveidos');
         const newEvent = document.createElement('div');
         newEvent.className = 'input-group mb-2';
         newEvent.innerHTML = `
-            <input type="text" class="form-control" name="eventos_relacionados_id[]" placeholder="ID del Evento">
-            <input type="text" class="form-control" name="nombres_eventos[]" placeholder="Nombre del Evento">
+            <input type="text" class="form-control" name="eventos_proveidos_id[]" placeholder="ID del Evento">
+            <input type="text" class="form-control" name="nombres_eventos_proveidos[]" placeholder="Nombre del Evento">
             <button type="button" class="btn btn-outline-danger" onclick="removeEvent(this)"><i class="fa-solid fa-minus"></i></button>
         `;
         container.appendChild(newEvent);

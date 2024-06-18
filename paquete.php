@@ -1,66 +1,71 @@
 <?php include 'header.php'; ?>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="./index.php">Gestión de Eventos SANA SANA</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="./evento.php"><i class="fa-regular fa-calendar-plus"></i> Agregar Paquete</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa-solid fa-user-plus"></i> Registrar Cliente</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa-solid fa-box-open"></i> Registrar Paquete</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa-solid fa-list-alt"></i> Registrar Tipo de Evento</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<?php 
+    require_once "./clases/conexion.php";
+    require_once "./clases/crudPaquete.php";
+    $crud = new CrudPaquete(); 
+    $paquetes = $crud->mostrarPaquetes();
+?>
+
+<script src="./index.php"></script>
+
 
 <div class="container mt-4">
   <div class="card">
     <div class="card-body">
-      <h2>Gestion de evento SANA SANA</h2>
-      <a href="#" class="btn btn-primary mb-3">
-        <i class="fa-regular fa-calendar-plus"></i> Agregar nuevo evento
+      <h2>Gestión de Paquetes SANA SANA</h2>
+      <a href="./Paquetes/agregarPaquete.php" class="btn btn-primary mb-3">
+        <i class="fa-solid fa-box-open"></i> Registrar nuevo paquete
       </a>
       <hr>
       <table class="table table-sm table-hover table-bordered">
-        <thead>
+        <thead class="table-dark">
           <tr>
             <th>Nombre</th>
-            <th>Fecha</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Eventos Asociados</th>
             <th>Editar</th>
             <th>Borrar</th>
           </tr>
         </thead>
         <tbody>
+        <?php if(isset($paquetes) && !empty($paquetes)): ?>
+          <?php foreach($paquetes as $paquete): ?>
+            <tr>
+              <td><?php echo $paquete['nombre']; ?></td>
+              <td><?php echo $paquete['descripcion']; ?></td>
+              <td><?php echo $paquete['precio']; ?></td>
+              <td>
+                <ul>
+                  <?php foreach($paquete['eventos_asociados'] as $evento): ?>
+                    <li><?php echo $evento['nombre_evento']; ?></li>
+                  <?php endforeach; ?>
+                </ul>
+              </td>
+              <td class="text-center">
+                <form action="./Paquetes/editarPaquete.php" method="post">
+                  <input type="text" hidden name="id" value="<?php echo $paquete['_id']; ?>">
+                  <button class="btn btn-warning btn-sm" type="submit" name="editar">
+                    <i class="fa-solid fa-square-pen"></i>
+                  </button>
+                </form>
+              </td>
+              <td class="text-center">
+                <form action="./Paquetes/borrarPaquete.php" method="post">
+                  <input type="text" hidden name="id" value="<?php echo $paquete['_id']; ?>">
+                  <button class="btn btn-danger btn-sm" type="submit" name="eliminar">
+                    <i class="fa-solid fa-eraser"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
           <tr>
-            <td>Evento 1</td>
-            <td>2021-12-12</td>
-            <td class="text-center">
-              <form action="" method="post">
-                <button class="btn btn-warning btn-sm" type="submit" name="editar">
-                  <i class="fa-solid fa-square-pen"></i>
-                </button>
-              </form>
-            </td>
-            <td class="text-center">
-              <form action="" method="post">
-                <button class="btn btn-danger btn-sm" type="submit" name="eliminar">
-                  <i class="fa-solid fa-eraser"></i>
-                </button>
-              </form>
-            </td>
+            <td colspan="6" class="text-center">No hay paquetes registrados</td>
           </tr>
+        <?php endif; ?>
         </tbody>
       </table>
     </div>

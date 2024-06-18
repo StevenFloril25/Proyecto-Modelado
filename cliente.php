@@ -1,15 +1,14 @@
 <?php include 'header.php'; ?>
 
-<!-- <?php 
-    // require_once "./clases/conexion.php";
-    // require_once "./clases/crud.php";
-    // $crud = new Crud(); 
-    // $clientes = $crud->mostrarClientes();
-?> -->
-
+<?php 
+    require_once "./clases/conexion.php";
+    require_once "./clases/crudCliente.php";
+    $crud = new CrudCliente(); 
+    $clientes = $crud->mostrarClientes();
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="./index.php">Gestión de Eventos SANA SANA</a>
+    <a class="navbar-brand" href="./index.php">Gestión de Eventos Zorrito Rayado</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -19,13 +18,13 @@
           <a class="nav-link" href="./evento.php"><i class="fa-regular fa-calendar-plus"></i> Agregar Evento</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./agregarCliente.php"><i class="fa-solid fa-user-plus"></i> Registrar Cliente</a>
+          <a class="nav-link" href="./cliente.php"><i class="fa-solid fa-user-plus"></i> Registrar Cliente</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa-solid fa-box-open"></i> Registrar Paquete</a>
+          <a class="nav-link" href="./paquete.php"><i class="fa-solid fa-box-open"></i> Registrar Paquete</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa-solid fa-list-alt"></i> Registrar Tipo de Evento</a>
+          <a class="nav-link" href="./proveedor.php"><i class="fa-solid fa-list-alt"></i> Registrar Proveedor</a>
         </li>
       </ul>
     </div>
@@ -52,36 +51,42 @@
           </tr>
         </thead>
         <tbody>
-        <?php foreach($clientes as $cliente): ?>
+        <?php if(isset($clientes) && !empty($clientes)): ?>
+          <?php foreach($clientes as $cliente): ?>
+            <tr>
+              <td><?php echo $cliente['nombre']; ?></td>
+              <td><?php echo $cliente['email']; ?></td>
+              <td><?php echo $cliente['telefono']; ?></td>
+              <td>
+                <ul>
+                  <?php foreach($cliente['eventos_contratados'] as $evento): ?>
+                    <li><?php echo $evento['nombre_evento']; ?></li>
+                  <?php endforeach; ?>
+                </ul>
+              </td>
+              <td class="text-center">
+                <form action="./Clientes/editarCliente.php" method="post">
+                  <input type="text" hidden name="id" value="<?php echo $cliente['_id']; ?>">
+                  <button class="btn btn-warning btn-sm" type="submit" name="editar">
+                    <i class="fa-solid fa-square-pen"></i>
+                  </button>
+                </form>
+              </td>
+              <td class="text-center">
+                <form action="./Clientes/borrarCliente.php" method="post">
+                  <input type="text" hidden name="id" value="<?php echo $cliente['_id']; ?>">
+                  <button class="btn btn-danger btn-sm" type="submit" name="eliminar">
+                    <i class="fa-solid fa-eraser"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
           <tr>
-            <td><?php echo $cliente['nombre']; ?></td>
-            <td><?php echo $cliente['email']; ?></td>
-            <td><?php echo $cliente['telefono']; ?></td>
-            <td>
-              <ul>
-                <?php foreach($cliente['eventos_contratados'] as $evento): ?>
-                  <li><?php echo $evento['nombre_evento']; ?></li>
-                <?php endforeach; ?>
-              </ul>
-            </td>
-            <td class="text-center">
-              <form action="./Clientes/editarCliente.php" method="post">
-                <input type="text" hidden name="id" value="<?php echo $cliente['_id']; ?>">
-                <button class="btn btn-warning btn-sm" type="submit" name="editar">
-                  <i class="fa-solid fa-square-pen"></i>
-                </button>
-              </form>
-            </td>
-            <td class="text-center">
-              <form action="./Clientes/borrarCliente.php" method="post">
-                <input type="text" hidden name="id" value="<?php echo $cliente['_id']; ?>">
-                <button class="btn btn-danger btn-sm" type="submit" name="eliminar">
-                  <i class="fa-solid fa-eraser"></i>
-                </button>
-              </form>
-            </td>
+            <td colspan="6" class="text-center">No hay clientes registrados</td>
           </tr>
-        <?php endforeach; ?>
+        <?php endif; ?>
         </tbody>
       </table>
     </div>

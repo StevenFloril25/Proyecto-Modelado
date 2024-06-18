@@ -1,11 +1,11 @@
 <?php 
 
-class CrudCliente extends Conexion {
+class CrudPaquete extends Conexion {
 
-    public function mostrarClientes() {
+    public function mostrarPaquetes() {
         try {
             $conexion = parent::conectar();
-            $coleccion = $conexion->clientes;
+            $coleccion = $conexion->paquetes;
             $datos = $coleccion->find();
             return $datos;
         } catch (\Throwable $th) {
@@ -13,10 +13,10 @@ class CrudCliente extends Conexion {
         }
     }
 
-    public function obtenerCliente($id) {
+    public function obtenerPaquete($id) {
         try {
             $conexion = parent::conectar();
-            $coleccion = $conexion->clientes;
+            $coleccion = $conexion->paquetes;
             $datos = $coleccion->findOne(
                 ['_id' => new MongoDB\BSON\ObjectId($id)]
             );
@@ -26,10 +26,10 @@ class CrudCliente extends Conexion {
         }
     }
 
-    public function insertarCliente($datos) {
+    public function insertarPaquete($datos) {
         try {
             $conexion = parent::conectar();
-            $coleccion = $conexion->clientes;
+            $coleccion = $conexion->paquetes;
             $respuesta = $coleccion->insertOne($datos);
             return $respuesta;
         } catch (\Throwable $th) {
@@ -37,10 +37,10 @@ class CrudCliente extends Conexion {
         }
     }
 
-    public function eliminarCliente($id) {
+    public function eliminarPaquete($id) {
         try {
             $conexion = parent::conectar();
-            $coleccion = $conexion->clientes;
+            $coleccion = $conexion->paquetes;
             $respuesta = $coleccion->deleteOne(
                 ['_id' => new MongoDB\BSON\ObjectId($id)]
             );
@@ -50,10 +50,10 @@ class CrudCliente extends Conexion {
         }
     }
 
-    public function actualizarCliente($id, $datos) {
+    public function actualizarPaquete($id, $datos) {
         try {
             $conexion = parent::conectar();
-            $coleccion = $conexion->clientes;
+            $coleccion = $conexion->paquetes;
             $respuesta = $coleccion->updateOne(
                 ['_id' => new MongoDB\BSON\ObjectId($id)], 
                 ['$set' => $datos]

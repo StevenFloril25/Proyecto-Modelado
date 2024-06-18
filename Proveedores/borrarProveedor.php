@@ -1,11 +1,13 @@
 <?php 
     include "../clases/conexion.php";
-    include "../clases/crudCliente.php";
+    include "../clases/crudProveedor.php";
 
-    $crud = new CrudCliente();
+    $crud = new CrudProveedor();
     $id = $_POST['id'];
-    $datos = $crud->obtenerCliente($id);
+    $datos = $crud->obtenerProveedor($id);
+    $idMongo = $datos['_id'];
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,34 +25,36 @@
         <div class="col">
             <div class="card mt-4 fondoDelete">
                 <div class="card-body">
-                    <a href="../cliente.php" class="btn btn-outline-info">
+                    <a href="../proveedor.php" class="btn btn-outline-info">
                         <i class="fa-solid fa-rotate-left"></i> Regresar
                     </a>
-                    <h2>Eliminar Cliente</h2>
+                    <h2>Eliminar Proveedor</h2>
                     <table class="table table-bordered">
                         <thead class="table-light">
                             <tr> 
                                 <th>Nombre</th>
-                                <th>Email</th>
+                                <th>Contacto</th>
                                 <th>Teléfono</th>
-                                <th>Eventos Contratados</th>
+                                <th>Servicios Ofrecidos</th>
+                                <th>Eventos Proveídos</th>
                                 <th class="text-center">Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr> 
                                 <td><?php echo htmlspecialchars($datos['nombre']); ?></td>
-                                <td><?php echo htmlspecialchars($datos['email']); ?></td>
+                                <td><?php echo htmlspecialchars($datos['contacto']); ?></td>
                                 <td><?php echo htmlspecialchars($datos['telefono']); ?></td>
+                                <td><?php echo htmlspecialchars(implode(', ', (array)$datos['servicios_ofrecidos'])); ?></td>
                                 <td>
                                     <ul>
-                                        <?php foreach ($datos['eventos_contratados'] as $evento) { ?>
+                                        <?php foreach ($datos['eventos_proveidos'] as $evento) { ?>
                                             <li><?php echo htmlspecialchars($evento['nombre_evento']); ?></li>
                                         <?php } ?>
                                     </ul>
                                 </td>
                                 <td class="text-center">
-                                    <form action="../procesos/eliminarCliente.php" method="post">
+                                    <form action="../procesos/eliminarProveedor.php" method="post">
                                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
                                         <button class="btn btn-danger btn-sm" type="submit" name="eliminar">
                                             <i class="fa-solid fa-trash-can"></i>
@@ -61,7 +65,7 @@
                         </tbody>
                     </table>
                     <div class="alert alert-danger" role="alert">
-                        ¿Está seguro de eliminar el cliente?
+                        ¿Está seguro de eliminar el proveedor?
                     </div>
                 </div>
             </div>

@@ -37,12 +37,12 @@
 <div class="container mt-4">
   <div class="card fondoDelete">
     <div class="card-body">
-      <a href="../evento.php" class="btn btn-outline-info mb-3">
+      <a href="../paquete.php" class="btn btn-outline-info mb-3">
         <i class="fa-solid fa-rotate-left"></i> Regresar
       </a>
-      <h2>Agregar nuevo Evento</h2>
+      <h2>Registrar nuevo Paquete</h2>
 
-      <form action="../procesos/insertarEvento.php" method="post" class="form-horizontal">
+      <form action="../procesos/insertarPaquete.php" method="post" class="form-horizontal">
           <div class="form-group row">
               <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
               <div class="col-sm-10">
@@ -56,40 +56,22 @@
               </div>
           </div>
           <div class="form-group row">
-              <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
+              <label for="precio" class="col-sm-2 col-form-label">Precio</label>
               <div class="col-sm-10">
-                  <input type="date" class="form-control" id="fecha" name="fecha" required>
+                  <input type="number" class="form-control" id="precio" name="precio" required>
               </div>
           </div>
           <div class="form-group row">
-              <label for="cliente_id" class="col-sm-2 col-form-label">Cliente ID</label>
-              <div class="col-sm-10">
-                  <input type="text" class="form-control" id="cliente_id" name="cliente_id" required>
-              </div>
-          </div>
-          <div class="form-group row">
-              <label for="paquete_id" class="col-sm-2 col-form-label">Paquete ID</label>
-              <div class="col-sm-10">
-                  <input type="text" class="form-control" id="paquete_id" name="paquete_id" required>
-              </div>
-          </div>
-          <div class="form-group row">
-              <label for="proveedor_id" class="col-sm-2 col-form-label">Proveedor ID</label>
-              <div class="col-sm-10">
-                  <input type="text" class="form-control" id="proveedor_id" name="proveedor_id" required>
-              </div>
-          </div>
-          <div class="form-group row">
-              <label for="eventos_relacionados" class="col-sm-2 col-form-label">Eventos Relacionados</label>
-              <div class="col-sm-10" id="eventos_relacionados">
+              <label for="eventos_asociados" class="col-sm-2 col-form-label">Eventos Asociados</label>
+              <div class="col-sm-10" id="eventos_asociados">
                   <div class="input-group mb-2">
-                      <input type="text" class="form-control" name="eventos_relacionados_id[]" placeholder="ID del Evento">
-                      <input type="text" class="form-control" name="nombres_eventos[]" placeholder="Nombre del Evento">
+                      <input type="text" class="form-control" name="eventos_asociados_id[]" placeholder="ID del Evento">
+                      <input type="text" class="form-control" name="nombres_eventos_asociados[]" placeholder="Nombre del Evento">
                       <button type="button" class="btn btn-outline-danger" onclick="removeEvent(this)"><i class="fa-solid fa-minus"></i></button>
                   </div>
               </div>
               <div class="col-sm-10 offset-sm-2">
-                  <button type="button" class="btn btn-outline-primary" onclick="addEvent()"><i class="fa-solid fa-plus"></i> Agregar Evento Relacionado</button>
+                  <button type="button" class="btn btn-outline-primary" onclick="addEvent()"><i class="fa-solid fa-plus"></i> Agregar Evento Asociado</button>
               </div>
           </div>
           <div class="form-group row">
@@ -105,12 +87,12 @@
 
 <script>
     function addEvent() {
-        const container = document.getElementById('eventos_relacionados');
+        const container = document.getElementById('eventos_asociados');
         const newEvent = document.createElement('div');
         newEvent.className = 'input-group mb-2';
         newEvent.innerHTML = `
-            <input type="text" class="form-control" name="eventos_relacionados_id[]" placeholder="ID del Evento">
-            <input type="text" class="form-control" name="nombres_eventos[]" placeholder="Nombre del Evento">
+            <input type="text" class="form-control" name="eventos_asociados_id[]" placeholder="ID del Evento">
+            <input type="text" class="form-control" name="nombres_eventos_asociados[]" placeholder="Nombre del Evento">
             <button type="button" class="btn btn-outline-danger" onclick="removeEvent(this)"><i class="fa-solid fa-minus"></i></button>
         `;
         container.appendChild(newEvent);

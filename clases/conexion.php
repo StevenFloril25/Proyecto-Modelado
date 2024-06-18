@@ -1,5 +1,5 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT'] . "/proyectomodelado/vendor/autoload.php";
+    require_once $_SERVER['DOCUMENT_ROOT'] . "/proyecto-modelado/vendor/autoload.php";
     
     class Conexion{
         public static function conectar(){

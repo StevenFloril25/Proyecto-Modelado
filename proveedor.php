@@ -2,10 +2,11 @@
 
 <?php 
     require_once "./clases/conexion.php";
-    require_once "./clases/crud.php";
-    $crud = new Crud(); 
-    $datos = $crud->mostrarEventos();
+    require_once "./clases/crudProveedor.php";
+    $crud = new CrudProveedor(); 
+    $proveedores = $crud->mostrarProveedores();
 ?>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="./index.php">Gestión de Eventos Zorrito Rayado</a>
@@ -24,8 +25,9 @@
           <a class="nav-link" href="./paquete.php"><i class="fa-solid fa-box-open"></i> Registrar Paquete</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./proveedor.php"><i class="fa-solid fa-list-alt"></i> Registrar Proveedor</a>
+          <a class="nav-link" href="./proveedor.php"><i class="fa-solid fa-truck"></i> Registrar Proveedor</a>
         </li>
+
       </ul>
     </div>
   </div>
@@ -34,52 +36,48 @@
 <div class="container mt-4">
   <div class="card">
     <div class="card-body">
-      <h2>Gestión de Eventos SANA SANA</h2>
-      <a href="./Eventos/agregarEvento.php" class="btn btn-primary mb-3">
-        <i class="fa-regular fa-calendar-plus"></i> Agregar nuevo evento
+      <h2>Gestión de Proveedores SANA SANA</h2>
+      <a href="./Proveedores/agregarProveedor.php" class="btn btn-primary mb-3">
+        <i class="fa-solid fa-truck"></i> Registrar nuevo proveedor
       </a>
       <hr>
       <table class="table table-sm table-hover table-bordered">
         <thead class="table-dark">
           <tr>
             <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Fecha</th>
-            <th>Cliente ID</th>
-            <th>Paquete ID</th>
-            <th>Proveedor ID</th>
-            <th>Eventos Relacionados</th>
+            <th>Contacto</th>
+            <th>Teléfono</th>
+            <th>Servicios Ofrecidos</th>
+            <th>Eventos Proveídos</th>
             <th>Editar</th>
             <th>Borrar</th>
           </tr>
         </thead>
         <tbody>
-        <?php foreach($datos as $dato): ?>
+        <?php foreach($proveedores as $proveedor): ?>
           <tr>
-            <td><?php echo $dato['nombre']; ?></td>
-            <td><?php echo $dato['descripcion']; ?></td>
-            <td><?php echo $dato['fecha']; ?></td>
-            <td><?php echo $dato['cliente_id']; ?></td>
-            <td><?php echo $dato['paquete_id']; ?></td>
-            <td><?php echo $dato['proveedor_id']; ?></td>
+            <td><?php echo $proveedor['nombre']; ?></td>
+            <td><?php echo $proveedor['contacto']; ?></td>
+            <td><?php echo $proveedor['telefono']; ?></td>
+            <td><?php echo implode(', ', (array)$proveedor['servicios_ofrecidos']); ?></td>
             <td>
               <ul>
-                <?php foreach($dato['eventos_relacionados'] as $evento): ?>
+                <?php foreach($proveedor['eventos_proveidos'] as $evento): ?>
                   <li><?php echo $evento['nombre_evento']; ?></li>
                 <?php endforeach; ?>
               </ul>
             </td>
             <td class="text-center">
-              <form action="./Eventos/editarEventos.php" method="post">
-                <input type="text" hidden name="id" value="<?php echo $dato['_id']; ?>">
+              <form action="./Proveedores/editarProveedor.php" method="post">
+                <input type="text" hidden name="id" value="<?php echo $proveedor['_id']; ?>">
                 <button class="btn btn-warning btn-sm" type="submit" name="editar">
                   <i class="fa-solid fa-square-pen"></i>
                 </button>
               </form>
             </td>
             <td class="text-center">
-              <form action="./Eventos/borrarEvento.php" method="post">
-                <input type="text" hidden name="id" value="<?php echo $dato['_id']; ?>">
+              <form action="./Proveedores/borrarProveedor.php" method="post">
+                <input type="text" hidden name="id" value="<?php echo $proveedor['_id']; ?>">
                 <button class="btn btn-danger btn-sm" type="submit" name="eliminar">
                   <i class="fa-solid fa-eraser"></i>
                 </button>
