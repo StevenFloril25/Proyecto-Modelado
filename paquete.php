@@ -7,7 +7,7 @@
     $paquetes = $crud->mostrarPaquetes();
 ?>
 
-<script src="./index.php"></script>
+<script src="index.php"></script>
 
 
 <div class="container mt-4">
