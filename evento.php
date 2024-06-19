@@ -118,6 +118,8 @@
             padding: 20px;
             background-color: #ffffff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            animation: fadeIn 1s ease-in-out;
         }
 
         .form-container h2 {
@@ -193,6 +195,15 @@
             color: #fff;
             border-color: white;
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -205,16 +216,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="./evento.php"><i class="fa-regular fa-calendar-plus"></i> Agregar Evento</a>
+          <a class="nav-link" href="./evento.php"><i class="fa-regular fa-calendar-plus"></i> Evento</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./cliente.php"><i class="fa-solid fa-user-plus"></i> Registrar Cliente</a>
+          <a class="nav-link" href="./cliente.php"><i class="fa-solid fa-user-plus"></i> Cliente</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./paquete.php"><i class="fa-solid fa-box-open"></i> Registrar Paquete</a>
+          <a class="nav-link" href="./paquete.php"><i class="fa-solid fa-box-open"></i> Paquete</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./proveedor.php"><i class="fa-solid fa-list-alt"></i> Registrar Proveedor</a>
+          <a class="nav-link" href="./proveedor.php"><i class="fa-solid fa-list-alt"></i> Proveedor</a>
         </li>
       </ul>
     </div>
@@ -222,7 +233,7 @@
 </nav>
 
 <div class="container-fluid mt-4">
-  <div class="card-body">
+  <div class="card-body form-container">
     <h2>Gestión de Eventos</h2>
     <a href="./Eventos/agregarEvento.php" class="btn btn-primary mb-3">
       <i class="fa-regular fa-calendar-plus"></i> Agregar nuevo evento
