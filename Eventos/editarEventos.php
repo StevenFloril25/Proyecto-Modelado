@@ -1,11 +1,11 @@
 <?php 
     include "../clases/conexion.php";
-    include "../clases/crudPaquete.php";
+    include "../clases/crud.php";
 
-    $crud = new CrudPaquete();
-    $id = $_POST['id'] ?? '';
-    $datos = !empty($id) ? $crud->obtenerPaquete($id) : null;
-    $idMongo = $datos['_id'] ?? '';
+    $crud = new Crud();
+    $id = $_POST['id'];
+    $datos = $crud->obtenerDocumento($id);
+    $idMongo = $datos['_id'];
 ?>
 
 <!DOCTYPE html>
@@ -118,12 +118,28 @@
             margin-bottom: 20px;
         }
 
+        .input-group.mb-2 {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .form-col {
+            flex: 1;
+            min-width: 300px;
+            padding: 10px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        td, th {
+        td {
             padding: 10px;
             border: 1px solid #ddd;
         }
@@ -131,6 +147,12 @@
         th {
             background-color: #1abc9c;
             color: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .text-center {
+            text-align: center;
         }
 
         .footer {
@@ -219,49 +241,56 @@
 </nav>
 
 <div class="container-fluid mt-4 form-container">
-  <a href="../paquete.php" class="btn btn-outline-info mb-3">
+  <a href="../evento.php" class="btn btn-outline-info mb-3">
     <i class="fa-solid fa-rotate-left"></i> Regresar
   </a>
-  <h2>Editar Paquete</h2>
-  <form action="../procesos/editarPaquete.php" method="post" class="form-horizontal" onsubmit="return validateForm()">
+  <h2>Editar Evento</h2>
+  <form action="../procesos/editarEvento.php" method="post" class="form-horizontal" onsubmit="return validateForm()">
     <input type="text" hidden name="id" value="<?php echo $idMongo; ?>">
 
     <table>
       <tr>
         <th><label for="nombre">Nombre</label></th>
         <td>
-          <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $datos['nombre'] ?? ''; ?>">
+          <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $datos['nombre']; ?>">
           <div class="error-message" id="nombreError"></div>
         </td>
       </tr>
       <tr>
         <th><label for="descripcion">Descripción</label></th>
-        <td><textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo $datos['descripcion'] ?? ''; ?></textarea></td>
+        <td><textarea class="form-control" id="descripcion" name="descripcion" rows="3" required><?php echo $datos['descripcion']; ?></textarea></td>
       </tr>
       <tr>
-        <th><label for="precio">Precio</label></th>
-        <td>
-          <input type="text" class="form-control" id="precio" name="precio" required value="<?php echo $datos['precio'] ?? ''; ?>">
-          <div class="error-message" id="precioError"></div>
-        </td>
+        <th><label for="fecha">Fecha</label></th>
+        <td><input type="date" class="form-control" id="fecha" name="fecha" required value="<?php echo $datos['fecha']; ?>"></td>
       </tr>
       <tr>
-        <th><label for="eventos_asociados">Eventos Asociados</label></th>
-        <td id="eventos_asociados">
-          <?php if (isset($datos['eventos_asociados']) && is_array($datos['eventos_asociados'])): ?>
-            <?php foreach ($datos['eventos_asociados'] as $index => $evento): ?>
-              <div class="input-group mb-2">
-                <input type="text" class="form-control" name="eventos_asociados_id[]" placeholder="ID del Evento" required value="<?php echo $evento['id_evento']; ?>">
-                <input type="text" class="form-control" name="nombres_eventos_asociados[]" placeholder="Nombre del Evento" required value="<?php echo $evento['nombre_evento']; ?>">
-                <button type="button" class="btn btn-outline-danger" onclick="removeEvent(this)"><i class="fa-solid fa-minus"></i></button>
-              </div>
-            <?php endforeach; ?>
-          <?php endif; ?>
+        <th><label for="cliente_id">Cliente ID</label></th>
+        <td><input type="text" class="form-control" id="cliente_id" name="cliente_id" required value="<?php echo $datos['cliente_id']; ?>"></td>
+      </tr>
+      <tr>
+        <th><label for="paquete_id">Paquete ID</label></th>
+        <td><input type="text" class="form-control" id="paquete_id" name="paquete_id" required value="<?php echo $datos['paquete_id']; ?>"></td>
+      </tr>
+      <tr>
+        <th><label for="proveedor_id">Proveedor ID</label></th>
+        <td><input type="text" class="form-control" id="proveedor_id" name="proveedor_id" required value="<?php echo $datos['proveedor_id']; ?>"></td>
+      </tr>
+      <tr>
+        <th><label for="eventos_relacionados">Eventos Relacionados</label></th>
+        <td id="eventos_relacionados">
+          <?php foreach ($datos['eventos_relacionados'] as $index => $evento) { ?>
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" name="eventos_relacionados_id[]" placeholder="ID del Evento" required value="<?php echo $evento['id_evento']; ?>">
+              <input type="text" class="form-control" name="nombres_eventos[]" placeholder="Nombre del Evento" required value="<?php echo $evento['nombre_evento']; ?>">
+              <button type="button" class="btn btn-outline-danger" onclick="removeEvent(this)"><i class="fa-solid fa-minus"></i></button>
+            </div>
+          <?php } ?>
         </td>
       </tr>
       <tr>
         <td colspan="2">
-          <button type="button" class="btn btn-outline-warning" onclick="addEvent()"><i class="fa-solid fa-plus"></i> Agregar Evento Asociado</button>
+          <button type="button" class="btn btn-outline-warning" onclick="addEvent()"><i class="fa-solid fa-plus"></i> Agregar Evento Relacionado</button>
         </td>
       </tr>
       <tr>
@@ -287,12 +316,12 @@
 
 <script>
     function addEvent() {
-        const container = document.getElementById('eventos_asociados');
+        const container = document.getElementById('eventos_relacionados');
         const newEvent = document.createElement('div');
         newEvent.className = 'input-group mb-2';
         newEvent.innerHTML = `
-            <input type="text" class="form-control" name="eventos_asociados_id[]" placeholder="ID del Evento" required>
-            <input type="text" class="form-control" name="nombres_eventos_asociados[]" placeholder="Nombre del Evento" required>
+            <input type="text" class="form-control" name="eventos_relacionados_id[]" placeholder="ID del Evento" required>
+            <input type="text" class="form-control" name="nombres_eventos[]" placeholder="Nombre del Evento" required>
             <button type="button" class="btn btn-outline-danger" onclick="removeEvent(this)"><i class="fa-solid fa-minus"></i></button>
         `;
         container.appendChild(newEvent);
@@ -303,9 +332,6 @@
     }
 
     function validateForm() {
-        let isValid = true;
-
-        // Validate nombre
         const nameInput = document.getElementById('nombre');
         const nameValue = nameInput.value.trim();
         const nameError = document.getElementById('nombreError');
@@ -313,25 +339,12 @@
         const namePattern = /^[a-zA-Z\s]+$/;
         if (!namePattern.test(nameValue)) {
             nameError.textContent = 'El nombre solo debe contener letras y espacios.';
-            isValid = false;
+            return false;
         } else {
             nameError.textContent = '';
         }
 
-        // Validate precio
-        const precioInput = document.getElementById('precio');
-        const precioValue = precioInput.value.trim();
-        const precioError = document.getElementById('precioError');
-
-        const precioPattern = /^[0-9.,]+$/;
-        if (!precioPattern.test(precioValue)) {
-            precioError.textContent = 'El precio solo debe contener números, puntos o comas.';
-            isValid = false;
-        } else {
-            precioError.textContent = '';
-        }
-
-        return isValid;
+        return true;
     }
 </script>
 <script src="../public/bootstrap5/bootstrap.bundle.min.js"></script>
