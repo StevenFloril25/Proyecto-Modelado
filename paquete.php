@@ -4,7 +4,14 @@
     require_once "./clases/conexion.php";
     require_once "./clases/crudPaquete.php";
     $crud = new CrudPaquete(); 
-    $paquetes = $crud->mostrarPaquetes();
+
+    $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+
+    if ($searchTerm) {
+        $paquetes = $crud->buscarPaquetes($searchTerm);
+    } else {
+        $paquetes = $crud->mostrarPaquetes();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -239,6 +246,10 @@
     <a href="./Paquetes/agregarPaquete.php" class="btn btn-primary mb-3">
       <i class="fa-solid fa-box-open"></i> Registrar nuevo paquete
     </a>
+    <form action="paquete.php" method="get" class="form-inline mb-3">
+        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Buscar paquetes" aria-label="Buscar">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
     <hr>
     <table class="table table-sm table-hover table-bordered custom-table">
       <thead class="table-dark">

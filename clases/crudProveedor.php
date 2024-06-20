@@ -26,6 +26,22 @@ class CrudProveedor extends Conexion {
         }
     }
 
+    public function buscarProveedores($searchTerm) {
+        try {
+            $conexion = parent::conectar();
+            $coleccion = $conexion->proveedores;
+            $datos = $coleccion->find([
+                '$or' => [
+                    ['nombre' => new MongoDB\BSON\Regex($searchTerm, 'i')],
+                    ['contacto' => new MongoDB\BSON\Regex($searchTerm, 'i')]
+                ]
+            ]);
+            return $datos;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
     public function insertarProveedor($datos) {
         try {
             $conexion = parent::conectar();

@@ -26,6 +26,22 @@ class CrudPaquete extends Conexion {
         }
     }
 
+    public function buscarPaquetes($searchTerm) {
+        try {
+            $conexion = parent::conectar();
+            $coleccion = $conexion->paquetes;
+            $datos = $coleccion->find([
+                '$or' => [
+                    ['nombre' => new MongoDB\BSON\Regex($searchTerm, 'i')],
+                    ['descripcion' => new MongoDB\BSON\Regex($searchTerm, 'i')]
+                ]
+            ]);
+            return $datos;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
     public function insertarPaquete($datos) {
         try {
             $conexion = parent::conectar();

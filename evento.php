@@ -1,10 +1,19 @@
-<?php include 'header.php'; ?>
-
 <?php 
+    include 'header.php'; 
     require_once "./clases/conexion.php";
     require_once "./clases/crud.php";
-    $crud = new Crud(); 
-    $datos = $crud->mostrarEventos();
+    $crud = new Crud();
+
+    // Verificar si hay un término de búsqueda
+    $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+
+    if ($searchTerm) {
+        // Filtrar eventos basados en el término de búsqueda
+        $datos = $crud->buscarEventos($searchTerm);
+    } else {
+        // Mostrar todos los eventos
+        $datos = $crud->mostrarEventos();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -209,8 +218,8 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
-  <a class="navbar-brand navbar-brand-custom" href="./index.php">Gestión de Eventos <i class="fa-solid fa-handshake"></i></i> </a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand navbar-brand-custom" href="./index.php">Gestión de Eventos <i class="fa-solid fa-handshake"></i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -238,6 +247,10 @@
     <a href="./Eventos/agregarEvento.php" class="btn btn-primary mb-3">
       <i class="fa-regular fa-calendar-plus"></i> Agregar nuevo evento
     </a>
+    <form action="evento.php" method="get" class="form-inline mb-3">
+      <input class="form-control mr-sm-2" type="search" name="search" placeholder="Buscar eventos" aria-label="Buscar">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
     <hr>
     <table class="table table-sm table-hover table-bordered custom-table">
       <thead class="table-dark">

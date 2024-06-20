@@ -12,6 +12,21 @@
             }
 
         }
+        public function buscarEventos($searchTerm) {
+            try {
+                $conexion = parent::conectar();
+                $coleccion = $conexion->eventos;
+                $datos = $coleccion->find([
+                    '$or' => [
+                        ['nombre' => new MongoDB\BSON\Regex($searchTerm, 'i')],
+                        ['descripcion' => new MongoDB\BSON\Regex($searchTerm, 'i')]
+                    ]
+                ]);
+                return $datos;
+            } catch (\Throwable $th) {
+                return $th->getMessage();
+            }
+        }
 
         public function obtenerDocumento($id){
             try {
