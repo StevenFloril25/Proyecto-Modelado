@@ -161,6 +161,12 @@
             color: #fff;
             border-color: white;
         }
+
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -184,7 +190,6 @@
         <li class="nav-item">
           <a class="nav-link" href="../proveedor.php"><i class="fa-solid fa-truck"></i> Proveedor</a>
         </li>
-     
       </ul>
     </div>
   </div>
@@ -196,19 +201,28 @@
   </a>
   <h2>Registrar nuevo Proveedor</h2>
 
-  <form action="../procesos/insertarProveedor.php" method="post" class="form-horizontal">
+  <form action="../procesos/insertarProveedor.php" method="post" class="form-horizontal" onsubmit="return validateForm()">
     <table>
       <tr>
         <th><label for="nombre">Nombre</label></th>
-        <td><input type="text" class="form-control" id="nombre" name="nombre" required></td>
+        <td>
+          <input type="text" class="form-control" id="nombre" name="nombre" required>
+          <div class="error-message" id="nombreError"></div>
+        </td>
       </tr>
       <tr>
-        <th><label for="contacto">Contacto</label></th>
-        <td><input type="email" class="form-control" id="contacto" name="contacto" required></td>
+        <th><label for="contacto">Correo</label></th>
+        <td>
+          <input type="email" class="form-control" id="contacto" name="contacto" required>
+          <div class="error-message" id="correoError"></div>
+        </td>
       </tr>
       <tr>
         <th><label for="telefono">Teléfono</label></th>
-        <td><input type="text" class="form-control" id="telefono" name="telefono" required></td>
+        <td>
+          <input type="text" class="form-control" id="telefono" name="telefono" required>
+          <div class="error-message" id="telefonoError"></div>
+        </td>
       </tr>
       <tr>
         <th><label for="servicios_ofrecidos">Servicios Ofrecidos</label></th>
@@ -265,6 +279,51 @@
 
     function removeEvent(button) {
         button.parentElement.remove();
+    }
+
+    function validateForm() {
+        let isValid = true;
+
+        // Validate nombre
+        const nameInput = document.getElementById('nombre');
+        const nameValue = nameInput.value.trim();
+        const nameError = document.getElementById('nombreError');
+
+        const namePattern = /^[a-zA-Z\s]+$/;
+        if (!namePattern.test(nameValue)) {
+            nameError.textContent = 'El nombre solo debe contener letras y espacios.';
+            isValid = false;
+        } else {
+            nameError.textContent = '';
+        }
+
+        // Validate correo
+        const correoInput = document.getElementById('contacto');
+        const correoValue = correoInput.value.trim();
+        const correoError = document.getElementById('correoError');
+
+        const correoPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!correoPattern.test(correoValue)) {
+            correoError.textContent = 'Ingrese un correo válido con un dominio.';
+            isValid = false;
+        } else {
+            correoError.textContent = '';
+        }
+
+        // Validate telefono
+        const telefonoInput = document.getElementById('telefono');
+        const telefonoValue = telefonoInput.value.trim();
+        const telefonoError = document.getElementById('telefonoError');
+
+        const telefonoPattern = /^[0-9]+$/;
+        if (!telefonoPattern.test(telefonoValue)) {
+            telefonoError.textContent = 'El teléfono solo debe contener números.';
+            isValid = false;
+        } else {
+            telefonoError.textContent = '';
+        }
+
+        return isValid;
     }
 </script>
 <script src="../public/bootstrap5/bootstrap.bundle.min.js"></script>

@@ -161,6 +161,12 @@
             color: #fff;
             border-color: white;
         }
+
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -194,11 +200,14 @@
     <i class="fa-solid fa-rotate-left"></i> Regresar
   </a>
   <h2>Agregar nuevo Evento</h2>
-  <form action="../procesos/insertarEvento.php" method="post" class="form-horizontal">
+  <form action="../procesos/insertarEvento.php" method="post" class="form-horizontal" onsubmit="return validateForm()">
     <table>
       <tr>
         <th><label for="nombre">Nombre</label></th>
-        <td><input type="text" class="form-control" id="nombre" name="nombre" required></td>
+        <td>
+          <input type="text" class="form-control" id="nombre" name="nombre" required>
+          <div class="error-message" id="nombreError"></div>
+        </td>
       </tr>
       <tr>
         <th><label for="descripcion">Descripción</label></th>
@@ -271,6 +280,22 @@
 
     function removeEvent(button) {
         button.parentElement.remove();
+    }
+
+    function validateForm() {
+        const nameInput = document.getElementById('nombre');
+        const nameValue = nameInput.value.trim();
+        const nameError = document.getElementById('nombreError');
+
+        const namePattern = /^[a-zA-Z\s]+$/;
+        if (!namePattern.test(nameValue)) {
+            nameError.textContent = 'El nombre solo debe contener letras y espacios.';
+            return false;
+        } else {
+            nameError.textContent = '';
+        }
+
+        return true;
     }
 </script>
 <script src="../public/bootstrap5/bootstrap.bundle.min.js"></script>

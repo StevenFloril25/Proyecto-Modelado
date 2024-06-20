@@ -118,28 +118,12 @@
             margin-bottom: 20px;
         }
 
-        .input-group.mb-2 {
-            display: flex;
-            align-items: center;
-        }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .form-col {
-            flex: 1;
-            min-width: 300px;
-            padding: 10px;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        td {
+        th, td {
             padding: 10px;
             border: 1px solid #ddd;
         }
@@ -147,12 +131,11 @@
         th {
             background-color: #1abc9c;
             color: white;
-            padding: 10px;
-            border: 1px solid #ddd;
+            width: 250px; /* Ajustar el ancho */
         }
 
-        .text-center {
-            text-align: center;
+        td {
+            width: calc(100% - 250px); /* Ajustar el ancho */
         }
 
         .footer {
@@ -206,6 +189,12 @@
             color: #fff;
             border-color: white;
         }
+
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -239,21 +228,30 @@
     <i class="fa-solid fa-rotate-left"></i> Regresar
   </a>
   <h2>Editar Proveedor</h2>
-  <form action="../procesos/editarProveedor.php" method="post" class="form-horizontal">
+  <form action="../procesos/editarProveedor.php" method="post" class="form-horizontal" onsubmit="return validateForm()">
     <input type="text" hidden name="id" value="<?php echo $idMongo; ?>">
 
     <table>
       <tr>
         <th><label for="nombre">Nombre</label></th>
-        <td><input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $datos['nombre']; ?>"></td>
+        <td>
+          <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $datos['nombre']; ?>">
+          <div class="error-message" id="nombreError"></div>
+        </td>
       </tr>
       <tr>
-        <th><label for="contacto">Contacto</label></th>
-        <td><input type="email" class="form-control" id="contacto" name="contacto" required value="<?php echo $datos['contacto']; ?>"></td>
+        <th><label for="contacto">Correo</label></th>
+        <td>
+          <input type="email" class="form-control" id="contacto" name="contacto" required value="<?php echo $datos['contacto']; ?>">
+          <div class="error-message" id="correoError"></div>
+        </td>
       </tr>
       <tr>
         <th><label for="telefono">Teléfono</label></th>
-        <td><input type="text" class="form-control" id="telefono" name="telefono" required value="<?php echo $datos['telefono']; ?>"></td>
+        <td>
+          <input type="text" class="form-control" id="telefono" name="telefono" required value="<?php echo $datos['telefono']; ?>">
+          <div class="error-message" id="telefonoError"></div>
+        </td>
       </tr>
       <tr>
         <th><label for="servicios_ofrecidos">Servicios Ofrecidos</label></th>
@@ -312,6 +310,51 @@
 
     function removeEvent(button) {
         button.parentElement.remove();
+    }
+
+    function validateForm() {
+        let isValid = true;
+
+        // Validate nombre
+        const nameInput = document.getElementById('nombre');
+        const nameValue = nameInput.value.trim();
+        const nameError = document.getElementById('nombreError');
+
+        const namePattern = /^[a-zA-Z\s]+$/;
+        if (!namePattern.test(nameValue)) {
+            nameError.textContent = 'El nombre solo debe contener letras y espacios.';
+            isValid = false;
+        } else {
+            nameError.textContent = '';
+        }
+
+        // Validate correo
+        const correoInput = document.getElementById('contacto');
+        const correoValue = correoInput.value.trim();
+        const correoError = document.getElementById('correoError');
+
+        const correoPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!correoPattern.test(correoValue)) {
+            correoError.textContent = 'Ingrese un correo válido con un dominio.';
+            isValid = false;
+        } else {
+            correoError.textContent = '';
+        }
+
+        // Validate telefono
+        const telefonoInput = document.getElementById('telefono');
+        const telefonoValue = telefonoInput.value.trim();
+        const telefonoError = document.getElementById('telefonoError');
+
+        const telefonoPattern = /^[0-9]+$/;
+        if (!telefonoPattern.test(telefonoValue)) {
+            telefonoError.textContent = 'El teléfono solo debe contener números.';
+            isValid = false;
+        } else {
+            telefonoError.textContent = '';
+        }
+
+        return isValid;
     }
 </script>
 <script src="../public/bootstrap5/bootstrap.bundle.min.js"></script>

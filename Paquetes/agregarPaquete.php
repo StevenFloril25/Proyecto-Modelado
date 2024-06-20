@@ -159,6 +159,12 @@
             color: #fff;
             border-color: white;
         }
+
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -193,11 +199,14 @@
   </a>
   <h2>Registrar nuevo Paquete</h2>
 
-  <form action="../procesos/insertarPaquete.php" method="post" class="form-horizontal">
+  <form action="../procesos/insertarPaquete.php" method="post" class="form-horizontal" onsubmit="return validateForm()">
     <table>
       <tr>
         <th><label for="nombre">Nombre</label></th>
-        <td><input type="text" class="form-control" id="nombre" name="nombre" required></td>
+        <td>
+          <input type="text" class="form-control" id="nombre" name="nombre" required>
+          <div class="error-message" id="nombreError"></div>
+        </td>
       </tr>
       <tr>
         <th><label for="descripcion">Descripción</label></th>
@@ -205,7 +214,10 @@
       </tr>
       <tr>
         <th><label for="precio">Precio</label></th>
-        <td><input type="number" class="form-control" id="precio" name="precio" required></td>
+        <td>
+          <input type="text" class="form-control" id="precio" name="precio" required>
+          <div class="error-message" id="precioError"></div>
+        </td>
       </tr>
       <tr>
         <th><label for="eventos_asociados">Eventos Asociados</label></th>
@@ -259,8 +271,39 @@
     function removeEvent(button) {
         button.parentElement.remove();
     }
+
+    function validateForm() {
+        let isValid = true;
+        
+        // Validate nombre
+        const nameInput = document.getElementById('nombre');
+        const nameValue = nameInput.value.trim();
+        const nameError = document.getElementById('nombreError');
+
+        const namePattern = /^[a-zA-Z\s]+$/;
+        if (!namePattern.test(nameValue)) {
+            nameError.textContent = 'El nombre solo debe contener letras y espacios.';
+            isValid = false;
+        } else {
+            nameError.textContent = '';
+        }
+
+        // Validate precio
+        const precioInput = document.getElementById('precio');
+        const precioValue = precioInput.value.trim();
+        const precioError = document.getElementById('precioError');
+
+        const precioPattern = /^[0-9.,]+$/;
+        if (!precioPattern.test(precioValue)) {
+            precioError.textContent = 'El precio solo debe contener números, puntos o comas.';
+            isValid = false;
+        } else {
+            precioError.textContent = '';
+        }
+
+        return isValid;
+    }
 </script>
 <script src="../public/bootstrap5/bootstrap.bundle.min.js"></script>
 </body>
 </html>
- 

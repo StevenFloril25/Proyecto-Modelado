@@ -206,6 +206,12 @@
             color: #fff;
             border-color: white;
         }
+
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -239,13 +245,16 @@
     <i class="fa-solid fa-rotate-left"></i> Regresar
   </a>
   <h2>Editar Cliente</h2>
-  <form action="../procesos/editarCliente.php" method="post" class="form-horizontal">
+  <form action="../procesos/editarCliente.php" method="post" class="form-horizontal" onsubmit="return validateForm()">
     <input type="text" hidden name="id" value="<?php echo $idMongo; ?>">
 
     <table>
       <tr>
         <th><label for="nombre">Nombre</label></th>
-        <td><input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $datos['nombre']; ?>"></td>
+        <td>
+          <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $datos['nombre']; ?>">
+          <div class="error-message" id="nombreError"></div>
+        </td>
       </tr>
       <tr>
         <th><label for="email">Email</label></th>
@@ -253,7 +262,10 @@
       </tr>
       <tr>
         <th><label for="telefono">Teléfono</label></th>
-        <td><input type="text" class="form-control" id="telefono" name="telefono" required value="<?php echo $datos['telefono']; ?>"></td>
+        <td>
+          <input type="text" class="form-control" id="telefono" name="telefono" required value="<?php echo $datos['telefono']; ?>">
+          <div class="error-message" id="telefonoError"></div>
+        </td>
       </tr>
       <tr>
         <th><label for="eventos_contratados">Eventos Contratados</label></th>
@@ -308,6 +320,36 @@
 
     function removeEvent(button) {
         button.parentElement.remove();
+    }
+
+    function validateForm() {
+        let isValid = true;
+
+        const nameInput = document.getElementById('nombre');
+        const nameValue = nameInput.value.trim();
+        const nameError = document.getElementById('nombreError');
+        const namePattern = /^[a-zA-Z\s]+$/;
+
+        if (!namePattern.test(nameValue)) {
+            nameError.textContent = 'El nombre solo debe contener letras y espacios.';
+            isValid = false;
+        } else {
+            nameError.textContent = '';
+        }
+
+        const phoneInput = document.getElementById('telefono');
+        const phoneValue = phoneInput.value.trim();
+        const phoneError = document.getElementById('telefonoError');
+        const phonePattern = /^[0-9]+$/;
+
+        if (!phonePattern.test(phoneValue)) {
+            phoneError.textContent = 'El teléfono solo debe contener números.';
+            isValid = false;
+        } else {
+            phoneError.textContent = '';
+        }
+
+        return isValid;
     }
 </script>
 <script src="../public/bootstrap5/bootstrap.bundle.min.js"></script>
