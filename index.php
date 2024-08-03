@@ -250,6 +250,7 @@
         <div class="carousel-item active">
           <img src="img/evento1.jpg" class="d-block w-100" alt="Imagen de Bienvenida">
           <div class="carousel-caption d-none d-md-block">
+
             <h1 class="animate__animated animate__fadeInDown">Bienvenidos a Gestión de Eventos</h1>
             <p class="animate__animated animate__fadeInUp">Creamos eventos inolvidables para ti</p>
           </div>
