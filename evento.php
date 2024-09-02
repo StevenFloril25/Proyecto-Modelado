@@ -213,7 +213,7 @@
                 opacity: 1;
             }
         }
-    </style>
+        </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
@@ -258,9 +258,6 @@
           <th>Nombre</th>
           <th>Descripción</th>
           <th>Fecha</th>
-          <th>Cliente ID</th>
-          <th>Paquete ID</th>
-          <th>Proveedor ID</th>
           <th>Eventos Relacionados</th>
           <th>Editar</th>
           <th>Borrar</th>
@@ -272,13 +269,10 @@
           <td><?php echo $dato['nombre']; ?></td>
           <td><?php echo $dato['descripcion']; ?></td>
           <td><?php echo $dato['fecha']; ?></td>
-          <td><?php echo $dato['cliente_id']; ?></td>
-          <td><?php echo $dato['paquete_id']; ?></td>
-          <td><?php echo $dato['proveedor_id']; ?></td>
           <td>
             <ul>
               <?php foreach($dato['eventos_relacionados'] as $evento): ?>
-                <li><?php echo $evento['nombre_evento']; ?></li>
+                <li><?php echo $evento['nombre_evento']; ?></li> <!-- Mostrar solo el nombre del evento relacionado -->
               <?php endforeach; ?>
             </ul>
           </td>
